@@ -22,7 +22,7 @@
 <form action="/post/<%= @the_post.id %>" method="POST">
   <div class="form-group">
     <label >Enter your name:</label>
-    <input name="comment[author]" type="text" class="form-control" placeholder="Your name">
+    <input name="comment[author]" type="text" class="form-control" placeholder="Your name"  value="<%= @comment.author %>" >
   </div>
   <div class="form-group">
     <label >Enter your comment:</label>

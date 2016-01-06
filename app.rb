@@ -22,17 +22,21 @@ get '/' do
 	erb :index
 end
 
+before '/new' do
+	@post = Post.new
+end
+
 get '/new' do
   erb :new
 end
 
 post '/new' do
-  new_post = Post.new params[:post]
-  if new_post.valid?
-  	new_post.save
+  @post = Post.new params[:post]
+  if @post.valid?
+  	@post.save
   	redirect to '/'
   else
-  	@error = new_post.errors.full_messages.first
+  	@error = @post.errors.full_messages.first
   	return erb :new
   end  
 end
@@ -40,6 +44,7 @@ end
 before '/post/:id' do
   @the_post = Post.find params[:id]
   @comments = Comment.where(post_id: params[:id])
+  @comment = Comment.new
 end
 
 get '/post/:id' do  	
@@ -47,13 +52,13 @@ get '/post/:id' do
 end
 
 post '/post/:id' do
-   new_comment = Comment.new params[:comment]
-   new_comment.post_id = params[:id]
-   if new_comment.valid?
-  	new_comment.save
+   @comment = Comment.new params[:comment]
+   @comment.post_id = params[:id]
+   if @comment.valid?
+  	@comment.save
   	redirect to '/post/' + params[:id]
   else
-  	@error = new_comment.errors.full_messages.first
+  	@error = @comment.errors.full_messages.first
   	return erb :details
   end  
 #   
