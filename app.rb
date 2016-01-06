@@ -36,3 +36,25 @@ post '/new' do
   	return erb :new
   end  
 end
+
+before '/post/:id' do
+  @the_post = Post.find params[:id]
+  @comments = Comment.where(post_id: params[:id])
+end
+
+get '/post/:id' do  	
+  erb :details
+end
+
+post '/post/:id' do
+   new_comment = Comment.new params[:comment]
+   new_comment.post_id = params[:id]
+   if new_comment.valid?
+  	new_comment.save
+  	redirect to '/post/' + params[:id]
+  else
+  	@error = new_comment.errors.full_messages.first
+  	return erb :details
+  end  
+#   
+end

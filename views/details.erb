@@ -1,0 +1,32 @@
+<h2>Lepersorium post!</h2>
+<p> 
+	<%= @the_post.content %> 
+	<br/ >		
+	<span style="font-size:75%; color:#999">Written by <%= @the_post.author %> at <%= @the_post.created_at %></span>	
+	<br/ >
+	<br/ >	
+</p>
+<hr/ >
+<h4>Lepersorium comments!</h4>
+<p>
+
+	<% @comments.each do |the_comment| %>
+	<%= the_comment.content %> 
+	<br/ >		
+	<span style="font-size:75%; color:#999">Written by <%= the_comment.author %> at <%= the_comment.created_at %></span>	
+	<br/ >
+	<hr/ >
+	<% end %>
+</p>
+<h4>New comment:</h4>
+<form action="/post/<%= @the_post.id %>" method="POST">
+  <div class="form-group">
+    <label >Enter your name:</label>
+    <input name="comment[author]" type="text" class="form-control" placeholder="Your name">
+  </div>
+  <div class="form-group">
+    <label >Enter your comment:</label>
+    <textarea name="comment[content]" class="form-control" rows="6" placeholder="Your comment"></textarea>
+  </div>  
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
