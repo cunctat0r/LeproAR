@@ -7,11 +7,29 @@ require 'sinatra/activerecord'
 set :database, "sqlite3:leproar.db"
 
 class Post < ActiveRecord::Base
+	validates :author, presence: true
+	validates :content, presence: true
 end
 
 class Comment < ActiveRecord::Base
 end
 
 get '/' do
-	erb "Hello! <a href=\"https://github.com/bootstrap-ruby/sinatra-bootstrap\">Original</a> pattern has been modified for <a href=\"http://rubyschool.us/\">Ruby School</a>"			
+	@posts = Post.order "created_at DESC"
+	erb :index
+end
+
+get '/new' do
+  erb :new
+end
+
+post '/new' do
+  new_post = Post.new params[:post]
+  if new_post.valid?
+  	new_post.save
+  	redirect to '/'
+  else
+  	@error = new_post.errors.full_messages.first
+  	return erb :new
+  end  
 end
