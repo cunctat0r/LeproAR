@@ -9,9 +9,12 @@ set :database, "sqlite3:leproar.db"
 class Post < ActiveRecord::Base
 	validates :author, presence: true
 	validates :content, presence: true
+	has_many :comments
 end
 
 class Comment < ActiveRecord::Base
+	validates :author, presence: true
+	validates :content, presence: true	
 end
 
 get '/' do
